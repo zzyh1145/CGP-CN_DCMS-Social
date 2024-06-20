@@ -128,7 +128,7 @@ while ($post = mysql_fetch_assoc($q))
 
 
 
-/*-----------зебра-----------*/ 
+/*-----------分割线-----------*/ 
 
 
 
@@ -183,7 +183,7 @@ echo "<a href='?id_rooms=$post[id]'>".htmlspecialchars($post['name'])."</a> \n";
 echo "(".mysql_result(mysql_query("SELECT COUNT(`id_user`) FROM `privat_chat` WHERE `id_room` = '$post[id]' AND `time` > '".(time()-300)."'  "),0).")\n";
 if (@$_SESSION['room_pass'] == $post['password']) {
 
-echo '<font color = red>я тут</font>';
+echo '<font color = red>在这里</font>';
 
 }
 echo '<br />';
@@ -193,7 +193,7 @@ $pass = NULL;
 if ($user['level'] >= 3 || @$_SESSION['room_pass'] == $post['password'] || $user['id'] == $post['id_avtor'])$pass = $post['password'];
 echo '<form action = "room.php?id_room='.$post['id'].'" method = POST>';
 if (isset($_GET['id_rooms']) && $_GET['id_rooms'] == $post['id'] && !empty($_SESSION['room_pass']) && $_SESSION['room_pass'] != $post['password']) echo '<font color = red>Вы ещё не вышли из другой комнаты</font> <a href="?exit">Выйти</a><br /><br />';
-echo 'Введите пароль от  комнаты: <br />
+echo '输入群聊加入码 <br />
 <input name = password size = 10 value = "'.$pass.'"> 
 <input type = submit value = ok>
 <br />';
@@ -219,13 +219,13 @@ echo "</table>\n";
 
 
 	echo "<div class='foot'>";
-echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>Выйти из неизвестной комнаты</a><br />\n";
-	echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>Создать комнату</a><br />\n";	echo "</div>";
-echo '<br /><font color = dimgray><img src="blue.png" alt="*" /> - ваша комната<br />
-<img src="red.png" alt="*" /> - чужие комнаты<br />&nbsp;
-<font color = red>я тут</font> - вы в данной комнате<br /><br />
-<center>*Если вы хотите сменить комнату, для начала вы должны выйти из комнаты в которой находитесь </center></font><br />';
-if ($k_page>1)str('index.php?',$k_page,$page); // Вывод страниц
+echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>退出陌生群聊</a><br />\n";
+	echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>创建群聊</a><br />\n";	echo "</div>";
+echo '<br /><font color = dimgray><img src="blue.png" alt="*" /> - 我的群聊<br />
+<img src="red.png" alt="*" /> - 其他群聊<br />&nbsp;
+<font color = red></font> - 你在这个群聊里<br /><br />
+<center>*如果想切换群聊,请退出当前群聊 </center></font><br />';
+if ($k_page>1)str('index.php?',$k_page,$page); // 页面加载
 
 
 
