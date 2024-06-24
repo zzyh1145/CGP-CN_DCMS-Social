@@ -13,31 +13,12 @@ if (!isset($_GET['id_room']) && !is_numeric($_GET['id_room'])){header("Location:
 if (mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' AND `password` = '".my_esc(htmlspecialchars(@$_SESSION['room_pass']))."' LIMIT 1",$db), 0)==0){header("Location: index.php?".SID);exit;}
 $chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
-
-
 
 
 ================================
 用户举报模块与消息
 ================================
-
-
-
 
 */
 
