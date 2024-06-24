@@ -22,53 +22,22 @@ $chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = 
 
 */
 
-
-
-
 if (isset($_GET['spam'])  && isset($user))
-
-
-
 
 {
 
-
-
-
 $mess = mysql_fetch_assoc(mysql_query("SELECT * FROM `news_komm` WHERE `id` = '".intval($_GET['spam'])."' limit 1"));
-
-
-
-
 $spamer = get_user($mess['id_user']);
-
-
-
 
 if (mysql_result(mysql_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news' AND `spam` = '".$mess['msg']."'"),0)==0)
 
-
-
-
 {
-
-
-
 
 if (isset($_POST['msg']))
 
-
-
-
 {
 
-
-
-
 if ($mess['id_user']!=$user['id'])
-
-
-
 
 {
 
