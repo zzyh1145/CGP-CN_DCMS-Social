@@ -25,15 +25,8 @@ if ($mat)$err[]='В названии комнаты обнаружен мат: '
 if (strlen2($password)>16){$err='Пароль должен состоять не больше чем из 16 символов';}
 if (strlen2($password)<3){$err='Пароль слишком короткий';}
 
-
-
-
-
-
 $name=my_esc($_POST['name']);
 $password=my_esc($_POST['password']);
-
-
 
 if (!isset($err)){
 
