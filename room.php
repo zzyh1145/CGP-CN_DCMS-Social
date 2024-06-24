@@ -1,63 +1,13 @@
 <?
 include_once '../sys/inc/start.php';
-
-
-
-
 include_once '../sys/inc/compress.php';
-
-
-
-
 include_once '../sys/inc/sess.php';
-
-
-
-
 include_once '../sys/inc/home.php';
-
-
-
-
 include_once '../sys/inc/settings.php';
-
-
-
-
 include_once '../sys/inc/db_connect.php';
-
-
-
-
 include_once '../sys/inc/ipua.php';
-
-
-
-
 include_once '../sys/inc/fnc.php';
-
-
-
-
 include_once '../sys/inc/user.php';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 if (!isset($_GET['id_room']) && !is_numeric($_GET['id_room'])){header("Location: index.php?".SID);exit;} elseif (@$_SESSION['room_pass']==NULL) @$_SESSION['room_pass'] = htmlspecialchars($_POST['password']);
 if (mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' AND `password` = '".my_esc(htmlspecialchars(@$_SESSION['room_pass']))."' LIMIT 1",$db), 0)==0){header("Location: index.php?".SID);exit;}
