@@ -34,24 +34,13 @@ mysql_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id
 $id_room = mysql_insert_id();
 //mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time` `id_room`) values('', '0', 'Комната успешно создана', '$time', '".$id_room."')");
 
-
-
 }
-
-
-
-
 
 $_SESSION['message'] = 'Комната успешно создана, не забудьте пароль: '.htmlspecialchars($password);
 header("Location: room.php?id_room=".$id_room."");
 exit;
 
-
 }
-
-
-
-
 
 $set['title']='Создание комнаты';
 include_once '../sys/inc/thead.php';
