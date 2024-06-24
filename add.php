@@ -30,13 +30,6 @@ $password=my_esc($_POST['password']);
 
 if (!isset($err)){
 
-
-
-
-
-
-
-
 mysql_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) values('', '".$user['id']."', '$name', '$password', '".$user['id']."')");
 $id_room = mysql_insert_id();
 //mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time` `id_room`) values('', '0', 'Комната успешно создана', '$time', '".$id_room."')");
