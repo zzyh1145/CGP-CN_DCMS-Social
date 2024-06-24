@@ -45,57 +45,25 @@ exit;
 $set['title']='Создание комнаты';
 include_once '../sys/inc/thead.php';
 
-
 title();
-
 
 err();
 
-
 aut(); // форма авторизации
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 echo "<form class='mess' method=\"post\" name='message' action=\"?\">\n";
-
 
 echo "Название комнаты:<br />\n<input name=\"name\" size=\"16\" maxlength=\"56\" type=\"text\" /><br />\n";
 echo "Пароль:<br />\n<input name=\"password\" size=\"16\" maxlength=\"16\" type=\"text\" /><br />\n";
 
-
-
-
-
-
 echo "<input value=\"Создать\" type=\"submit\" name=\"ok\"/>\n";
 echo "</form>\n";
 
-
-
-
-
-
-
-
 echo'<div class="foot">';
-
 
 echo "<img src='/style/icons/str.gif' alt='*'> <a href='index.php'>Приватные комнаты</a><br />\n";
 echo "</div>";
 
-
 include_once '../sys/inc/tfoot.php';
-
 
 ?>
