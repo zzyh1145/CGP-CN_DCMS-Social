@@ -1,8 +1,4 @@
 <?
-
-
-
-
 include_once '../sys/inc/start.php';
 
 
