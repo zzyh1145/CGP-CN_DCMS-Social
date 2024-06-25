@@ -1,168 +1,50 @@
 <?
-
-
-
-
 include_once '../sys/inc/start.php';
-
-
-
-
 include_once '../sys/inc/compress.php';
-
-
-
-
-include_once '../sys/inc/sess.php';
-
-
-
-
-include_once '../sys/inc/home.php';
-
-
-
-
+include_once '../sys/inc/sess.php';include_once '../sys/inc/home.php';
 include_once '../sys/inc/settings.php';
-
-
-
-
 include_once '../sys/inc/db_connect.php';
-
-
-
-
 include_once '../sys/inc/ipua.php';
-
-
-
-
 include_once '../sys/inc/fnc.php';
-
-
-
-
 include_once '../sys/inc/user.php';
-
-
-
 
 if (isset($_GET['exit'])) unset($_SESSION['room_pass']);
 $set['title']='个人群聊';
 include_once '../sys/inc/thead.php';
-
-
-
-
 title();
-
-
-
-
 aut(); // 加入申请
-
-
-
-
-
-
-
-
 
 $k_post=mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room`"),0);
 $k_page=k_page($k_post,$set['p_str']);
-
-
-
-
 $page=page($k_page);
-
-
-
-
 $start=$set['p_str']*$page-$set['p_str'];
-
-
-
-
 $q=mysql_query("SELECT * FROM `privat_room` ORDER BY `id` DESC LIMIT $start, $set[p_str]");
 echo "<table class='post'>\n";
 
-
-
-
 if ($k_post==0)
-
-
-
-
 {
 
-
-
-
 echo '<div class="mess">';
-
-
-
-
 echo '没有群聊';
 echo '</div>';
-
-
-
-
 }
-
-
-
 
 while ($post = mysql_fetch_assoc($q))
 
-
-
-
 {
-
-
-
 
 /*-----------分割线-----------*/ 
 
+if ($num==0)
+{
+echo '<div class="nav2">';
+$num=1;
 
-
-
-if ($num==0){
-
-
-
-
-	echo '<div class="nav2">';
-
-
-
-
-	$num=1;
-
-
-
-
-}elseif ($num==1){
-
-
-
-
-	echo '<div class="nav1">';
-
-
-
-
-	$num=0;
-
-
-
-
+}
+elseif ($num==1)
+{
+echo '<div class="nav1">';
+$num=0;
 }
 
 
