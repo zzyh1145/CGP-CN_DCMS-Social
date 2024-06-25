@@ -43,70 +43,27 @@ if ($mess['id_user']!=$user['id'])
 
 
 
-
 $msg=mysql_real_escape_string($_POST['msg']);
-
-
-
-
-
-
-
 
 
 if (strlen2($msg)<3)$err='详细说明举报原因';
 
 
-
-
-if (strlen2($msg)>1512)$err='文本长度超过的
-
-
-
-
-
-
-512字数限制';
-
-
-
-
-
-
-
-
+if (strlen2($msg)>1512)$err='文本长度超过的512字数限制';
 
 if(isset($_POST['types'])) $types=intval($_POST['types']);
 
-
-
-
 else $types='0'; 
-
-
-
 
 if (!isset($err))
 
-
-
-
 {
-
-
-
 
 mysql_query("INSERT INTO `spamus` (`id_object`, `id_user`, `msg`, `id_spam`, `time`, `types`, `razdel`, `spam`) values('$chat[id]', '$user[id]', '$msg', '$spamer[id]', '$time', '$types', 'news', '".my_esc($mess['msg'])."')");
 $_SESSION['message'] = 'Заявка на рассмотрение отправлена'; 
 
-
-
-
 header("Location: ?id=$chat[id]&spam=$mess[id]&page=".intval($_GET['page'])."");
 exit;
-
-
-
 
 }
 
