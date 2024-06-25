@@ -67,100 +67,26 @@ exit;
 
 }
 
-
-
+}
 
 }
 
-
-
-
 }
-
-
-
-
-}
-
-
-
-
-
-
-
-
-
 include_once '../sys/inc/thead.php';
-
-
-
-
 title();
-
-
-
-
 aut();
-
-
-
-
 err();
 
-
-
-
-
-
-
-
-
 if (mysql_result(mysql_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0)==0)
-
-
-
-
 {
-
-
-
-
 echo "<div class='mess'>Ложная информация может привести к блокировке ника. 
-
-
-
-
 Если вас постоянно достает один человек - пишет всякие гадости, вы можете добавить его в черный список.</div>";
-
-
-
-
 echo "<form class='nav1' method='post' action='?id=$chat[id]&amp;spam=$mess[id]&amp;page=".intval($_GET['page'])."'>\n";
 echo "<b>Пользователь:</b> ";
-
-
-
-
 echo " ".status($spamer['id'])."  ".group($spamer['id'])." <a href=\"/info.php?id=$spamer[id]\">$spamer[nick]</a>\n";
-
-
-
-
 echo "".medal($spamer['id'])." ".online($spamer['id'])." (".vremja($mess['time']).")<br />";
-
-
-
-
 echo "<b>Нарушение:</b> <font color='green'>".output_text($mess['msg'])."</font><br />";
-
-
-
-
 echo "Причина:<br />\n<select name='types'>\n";
-
-
-
-
 echo "<option value='1' selected='selected'>Спам/Реклама</option>\n";
 
 
