@@ -27,8 +27,8 @@ if (isset($_POST['msg']))
 if ($mess['id_user']!=$user['id'])
 {
 $msg=mysql_real_escape_string($_POST['msg']);
-if (strlen2($msg)<3)$err='详细说明举报原因';
-if (strlen2($msg)>1512)$err='文本长度超过的512字数限制';
+if (strlen2($msg)<3)$err='请详细说明举报原因';
+if (strlen2($msg)>512)$err='文本长度超过的512字数';
 if(isset($_POST['types'])) $types=intval($_POST['types']);
 else $types='0'; 
 if (!isset($err))
