@@ -63,7 +63,7 @@ echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>创建群聊
 echo "</div>";
 echo '<br /><font color = dimgray><img src="blue.png" alt="*" /> - 我的群聊<br />
 <img src="red.png" alt="*" /> - 其他群聊<br />&nbsp;
-<font color = red></font> - 你在这个群聊里<br /><br />
+<font color = red></font> - 你已经在这个群聊里<br /><br />
 <center>*如果想切换群聊,请退出当前群聊 </center></font><br />';
 if ($k_page>1)str('index.php?',$k_page,$page);
 // 页面加载
