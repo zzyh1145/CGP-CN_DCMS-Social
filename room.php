@@ -34,7 +34,7 @@ if (isset($_GET['spam'])  && isset($user)) {
 				if(isset($_POST['types'])) $types=intval($_POST['types']); else $types='0';
 				if (!isset($err)) {
 					mysql_query("INSERT INTO `spamus` (`id_object`, `id_user`, `msg`, `id_spam`, `time`, `types`, `razdel`, `spam`) values('$chat[id]', '$user[id]', '$msg', '$spamer[id]', '$time', '$types', 'news', '".my_esc($mess['msg'])."')");
-					$_SESSION['message'] = 'Заявка на рассмотрение отправлена';
+					$_SESSION['message'] = '举报成功';
 					header("Location: ?id=$chat[id]&spam=$mess[id]&page=".intval($_GET['page'])."");
 					exit;
 				}
@@ -46,8 +46,7 @@ if (isset($_GET['spam'])  && isset($user)) {
 	aut();
 	err();
 	if (mysql_result(mysql_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0)==0) {
-		echo "<div class='mess'>Ложная информация может привести к блокировке ника. 
-Если вас постоянно достает один человек - пишет всякие гадости, вы можете добавить его в черный список.</div>";
+		echo "<div class='mess'>造谣是违法行为,可能导致封号。如果一个人经常骚扰,诈骗你，你可以把他添加到黑名单中.</div>";
 		echo "<form class='nav1' method='post' action='?id=$chat[id]&amp;spam=$mess[id]&amp;page=".intval($_GET['page'])."'>\n";
 		echo "<b>Пользователь:</b> ";
 		echo " ".status($spamer['id'])."  ".group($spamer['id'])." <a href=\"/info.php?id=$spamer[id]\">$spamer[nick]</a>\n";
