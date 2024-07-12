@@ -49,7 +49,7 @@ while ($post = mysql_fetch_assoc($q)) {
 		if ($user['level'] >= 3 || @$_SESSION['room_pass'] == $post['password'] || $user['id'] == $post['id_avtor'])$pass = $post['password'];
 		echo '<form action = "room.php?id_room='.$post['id'].'" method = POST>';
 		if (isset($_GET['id_rooms']) && $_GET['id_rooms'] == $post['id'] && !empty($_SESSION['room_pass']) && $_SESSION['room_pass'] != $post['password']) echo '<font color = red>Вы ещё не вышли из другой комнаты</font> <a href="?exit">Выйти</a><br /><br />';
-		echo '输入群聊加入码 <br />
+		echo '输入群聊邀请码 <br />
 <input name = password size = 10 value = "'.$pass.'"> 
 <input type = submit value = ok>
 <br />';
@@ -58,7 +58,7 @@ while ($post = mysql_fetch_assoc($q)) {
 }
 echo "</table>\n";
 echo "<div class='foot'>";
-echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>退出陌生群聊</a><br />\n";
+echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>退出群聊</a><br />\n";
 echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>创建群聊</a><br />\n";
 echo "</div>";
 echo '<br /><font color = dimgray><img src="blue.png" alt="*" /> - 我的群聊<br />
