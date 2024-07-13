@@ -33,15 +33,15 @@ if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['ok'])) {
         $err[] = '群聊名称中发现敏感词：' . $mat;
     }
 
-    // 检查密码长度
+    // 检查邀请码长度
     if (strlen2($password) > 16) {
-        $err = '密码长度不能超过16个字符';
+        $err = '邀请码长度不能超过10字';
     }
     if (strlen2($password) < 3) {
-        $err = '密码长度过短';
+        $err = '邀请码长度短于3字';
     }
 
-    // 再次转义名称和密码
+    // 再次转义名称和邀请码
     $name = my_esc($_POST['name']);
     $password = my_esc($_POST['password']);
 
@@ -49,17 +49,17 @@ if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['ok'])) {
     if (!isset($err)) {
         mysql_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) VALUES('', '" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
         $id_room = mysql_insert_id();
-        // mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time`, `id_room`) VALUES('', '0', '房间成功创建', '$time', '" . $id_room . "')");
+        // mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time`, `id_room`) VALUES('', '0', '群聊成功创建', '$time', '" . $id_room . "')");
 
         // 设置成功消息并重定向
-        $_SESSION['message'] = '房间成功创建，请记住密码：' . htmlspecialchars($password);
+        $_SESSION['message'] = '群聊成功创建，请记住邀请码：' . htmlspecialchars($password);
         header("Location: room.php?id_room=" . $id_room);
         exit;
     }
 }
 
 // 设置页面标题
-$set['title'] = '创建房间';
+$set['title'] = '创建群聊';
 include_once '../sys/inc/thead.php';
 
 // 显示标题
@@ -71,16 +71,16 @@ err();
 // 显示登录表单
 aut();
 
-// 显示创建房间的表单
+// 显示创建群聊的表单
 echo "<form class='mess' method=\\"post\\" name='message' action=\\"?\\">\\n";
-echo "房间名称：<br />\\n<input name=\\"name\\" size=\\"16\\" maxlength=\\"56\\" type=\\"text\\" /><br />\\n";
-echo "密码：<br />\\n<input name=\\"password\\" size=\\"16\\" maxlength=\\"16\\" type=\\"text\\" /><br />\\n";
+echo "群聊名称：<br />\\n<input name=\\"name\\" size=\\"16\\" maxlength=\\"56\\" type=\\"text\\" /><br />\\n";
+echo "邀请：<br />\\n<input name=\\"password\\" size=\\"16\\" maxlength=\\"16\\" type=\\"text\\" /><br />\\n";
 echo "<input value=\\"创建\\" type=\\"submit\\" name=\\"ok\\"/>\\n";
 echo "</form>\\n";
 
 // 页面底部链接
 echo '<div class="foot">';
-echo "<img src='/style/icons/str.gif' alt='*' /> <a href='index.php'>私人房间</a><br />\\n";
+echo "<img src='/style/icons/str.gif' alt='*' /> <a href='index.php'>群聊</a><br />\\n";
 echo "</div>";
 
 // 包含页脚文件
