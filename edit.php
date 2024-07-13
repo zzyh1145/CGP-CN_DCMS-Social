@@ -12,7 +12,7 @@ include_once '../sys/inc/user.php'; // 引入用户文件
 // 从数据库中获取群聊信息
 $chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
 
-// 检查是否提供了有效的群聊ID，用户权限，以及群聊是否存在
+// 检查是否提供了有效的群聊邀请码，用户权限，以及群聊是否存在
 if (!isset($_GET['id']) && !is_numeric($_GET['id']) && $user['id'] != $chat['id_avtor'] || !isset($_GET['id']) && !is_numeric($_GET['id']) && $user['level'] < 3) {header("Location: index.php?".SID);exit;}
 if (mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1",$db), 0) == 0) {header("Location: index.php?".SID);exit;}
 $privat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
