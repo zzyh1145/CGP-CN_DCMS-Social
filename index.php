@@ -16,30 +16,26 @@ title();
 aut();
 
 // 假设 $link, $start 和 $set['p_str'] 都已经正确定义和初始化
-// 确保 $start 被正确定义和初始化
-if (!isset($start)) {
-    $start = 0; // 默认值
-}
+
+// 确保之前的语句已经正确结束
+// ...
 
 // 正确的查询语句
+$start = 0;
+$link = 0 ;
+$set['p_str'] = 0;
 $q = mysqli_query($link, "SELECT * FROM `privat_room` ORDER BY `id` DESC LIMIT $start, {$set['p_str']}");
-if (!$q) {
-    die('查询失败: ' . mysqli_error($link));
-}
+
+// 确保之后的语句也正确结束
+// ...
+
 
 // 加入申请
-$k_post_query = mysqli_query($link, "SELECT COUNT(*) FROM `privat_room`");
-if (!$k_post_query) {
-    die('查询失败: ' . mysqli_error($link));
-}
-$k_post = mysqli_fetch_row($k_post_query)[0];
+$k_post = mysqli_fetch_row(mysqli_query($link, "SELECT COUNT(*) FROM `privat_room`"))[0];
 $k_page = k_page($k_post, $set['p_str']);
 $page = page($k_page);
 $start = $set['p_str'] * $page - $set['p_str'];
 $q = mysqli_query($link, "SELECT * FROM `privat_room` ORDER BY `id` DESC LIMIT $start, {$set['p_str']}");
-if (!$q) {
-    die('查询失败: ' . mysqli_error($link));
-}
 
 echo "<table class='post'>\\n";
 if ($k_post == 0) 
