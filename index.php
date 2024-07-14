@@ -39,7 +39,7 @@ while ($post = mysql_fetch_assoc($q)) {
 	echo "<img src='blue.png' alt='*' />"; else 
 	echo "<img src='red.png' alt='*' />";
 	echo "<a href='?id_rooms=$post[id]'>".htmlspecialchars($post['name'])."</a> \n";
-	echo "(".mysql_result(mysql_query("SELECT COUNT(`id_user`) FROM `privat_chat` WHERE `id_room` = '$post[id]' AND `time` > '".(time()-300)."'  "),0).")\n";
+	echo "(".mysql_result(mysql_query("SELECT COUNT(`id_user`) FROM `privat_chat` WHERE `id_room` = '$post[id]' AND `time` > '".(time()-300)."'  "),0).")";
 	if (@$_SESSION['room_pass'] == $post['password']) {
 		echo '<font color = red>在这里</font>';
 	}
@@ -58,13 +58,13 @@ while ($post = mysql_fetch_assoc($q)) {
 }
 echo "</table>\n";
 echo "<div class='foot'>";
-echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>退出群聊</a><br />\n";
-echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>创建群聊</a><br />\n";
+echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='?exit'>退出群聊</a><br />";
+echo " <img src='/style/icons/ok.gif' alt='*' />  <a href='add.php'>创建群聊</a><br />";
 echo "</div>";
 echo '<br /><font color = dimgray><img src="blue.png" alt="*" /> - 我的群聊<br />
 <img src="red.png" alt="*" /> - 其他群聊<br />&nbsp;
-<font color = red></font> - 你已经在这个群聊里<br /><br />
-<center>*如果想切换群聊,请退出当前群聊 </center></font><br />';
+<font color = red></font>你已经在这个群聊里<br /><br />
+如果想切换群聊,请退出当前群聊</font><br />';
 if ($k_page>1)str('index.php?',$k_page,$page);
 // 页面加载
 include_once '../sys/inc/tfoot.php';
