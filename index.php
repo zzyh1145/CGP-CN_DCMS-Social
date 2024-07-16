@@ -14,7 +14,7 @@ include_once '../sys/inc/thead.php';
 title();
 aut();
 
-$conn = mysqli_connect("localhost", "dcms_net_cn", "6cbGWYazifXcj2kd", "dcms_net_cn");
+$conn = mysqli_connect("localhost", "数据库用户名", "数据库密码", "数据库名称");
 
 // 加入申请
 $k_post = mysqli_query($conn, 'SELECT COUNT(*) FROM `privat_room`');
