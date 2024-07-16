@@ -47,8 +47,8 @@ if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['ok'])) {
 
     // 如果没有错误，则插入数据库
     if (!isset($err)) {
-        mysql_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) VALUES('', '" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
-        $id_room = mysql_insert_id();
+        mysqli_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) VALUES('', '" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
+        $id_room = mysqli_insert_id();
         // mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time`, `id_room`) VALUES('', '0', '群聊成功创建', '$time', '" . $id_room . "')");
 
         // 设置成功消息并重定向
@@ -72,16 +72,19 @@ err();
 aut();
 
 // 显示创建群聊的表单
-echo "<form class='mess' method=\\"post\\" name='message' action=\\"?\\">\\n";
-echo "群聊名称：<br />\\n<input name=\\"name\\" size=\\"16\\" maxlength=\\"56\\" type=\\"text\\" /><br />\\n";
-echo "邀请：<br />\\n<input name=\\"password\\" size=\\"16\\" maxlength=\\"16\\" type=\\"text\\" /><br />\\n";
-echo "<input value=\\"创建\\" type=\\"submit\\" name=\\"ok\\"/>\\n";
-echo "</form>\\n";
+echo "<form class=\"mess\" method=\"post\" name=\"message\" action=\"?\">";
+echo "群聊名称：<br/><input name=\"name\" size=\"16\" maxlength=\"56\" type=\"text\"/><br/>";
+echo "邀请码：<br/><input name=\"password\" size=\"16\" maxlength=\"16\" type=\"text\"/><br/>";
+echo "<input value=\"创建\" type=\"submit\" name=\"ok\">";
+echo "</form>";
 
 // 页面底部链接
-echo '<div class="foot">';
-echo "<img src='/style/icons/str.gif' alt='*' /> <a href='index.php'>群聊</a><br />\\n";
+echo "<div class='foot'>";
+echo "<img src='/style/icons/str.gif' alt='*' />";
+echo "<a href='index.php'>群聊</a>";
+echo "<br />";
 echo "</div>";
+
 
 // 包含页脚文件
 include_once '../sys/inc/tfoot.php';
