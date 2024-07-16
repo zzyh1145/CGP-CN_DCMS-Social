@@ -3,9 +3,9 @@
 
 // 数据库连接参数
 $db_host = 'localhost'; // 数据库主机地址
-$db_user = 'dcms_net_cn'; // 数据库用户名
-$db_pass = '6cbGWYazifXcj2kd'; // 数据库密码
-$db_name = 'dcms_net_cn'; // 数据库名称
+$db_user = 'username'; // 数据库用户名
+$db_pass = 'password'; // 数据库密码
+$db_name = 'name'; // 数据库名称
 
 // 创建数据库连接
 $link = mysqli_connect($db_host, $db_user, $db_pass, $db_name);
