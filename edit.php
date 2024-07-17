@@ -4,18 +4,18 @@ include_once '../sys/inc/compress.php'; // 引入压缩文件
 include_once '../sys/inc/sess.php'; // 引入会话文件
 include_once '../sys/inc/home.php'; // 引入主页文件
 include_once '../sys/inc/settings.php'; // 引入设置文件
-include_once '../sys/inc/db_connect.php'; // 引入数据库连接文件
+include_once '../group/db_connect.php'; // 引入数据库连接文件
 include_once '../sys/inc/ipua.php'; // 引入IP和用户代理文件
 include_once '../sys/inc/fnc.php'; // 引入功能函数文件
 include_once '../sys/inc/user.php'; // 引入用户文件
 
 // 从数据库中获取群聊信息
-$chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
+$chat = mysqli_fetch_assoc(mysqli_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
 
 // 检查是否提供了有效的群聊邀请码，用户权限，以及群聊是否存在
 if (!isset($_GET['id']) && !is_numeric($_GET['id']) && $user['id'] != $chat['id_avtor'] || !isset($_GET['id']) && !is_numeric($_GET['id']) && $user['level'] < 3) {header("Location: index.php?".SID);exit;}
-if (mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1",$db), 0) == 0) {header("Location: index.php?".SID);exit;}
-$privat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
+if (mysqli_result(mysqli_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1",$db), 0) == 0) {header("Location: index.php?".SID);exit;}
+$privat = mysqli_fetch_assoc(mysqli_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
 
 
 
@@ -58,15 +58,18 @@ err();
 // 显示用户认证表单
 aut(); // 显示用户认证表单
 
-echo "<form class='mess' method=\\"post\\" name='message' action=\\"?id=$privat[id]\\">\\n";
-echo "群聊名称:<br />\\n<input name=\\"name\\" size=\\"16\\" maxlength=\\"32\\" value=\\"" . htmlspecialchars($privat['name']) . "\\" type=\\"text\\" /><br />\\n";
-echo "邀请码:<br />\\n<input name=\\"password\\" size=\\"16\\" maxlength=\\"26\\" value=\\"" . htmlspecialchars($privat['password']) . "\\" type=\\"text\\" /><br />\\n";
-
-echo "<input value=\\"完成\\" type=\\"submit\\" name=\\"ok\\"/>\\n";
+echo "<form class='mess' method='post' name='message' action='?id=" . htmlspecialchars($privat['id']) . "'>";
+echo "群聊名称:<br />\\n";
+echo '<input name="name" size="16" maxlength="32" value="' . htmlspecialchars($privat['name']) . '" type="text" />';
+echo "<br />\\n";
+echo "邀请码:<br />\\n";
+echo '<input name="password" size="16" maxlength="26" value="' . htmlspecialchars($privat['password']) . '" type="text" />';
+echo "<br />\\n"; 
+echo "<input value=\"Готово\" type=\"submit\" name=\"ok\"/>\n";
 echo "</form>\\n";
 
 echo'<div class="foot">'; // 页脚
-echo "<img src='/style/icons/str.gif' alt='*'> <a href='index.php'>群聊列表</a> | <a href='room.php?id_room=$privat[id]'>" . htmlspecialchars($privat['name']) . "</a><br />\\n";
+echo "<img src='/style/icons/str.gif' alt='*' /> <a href='index.php'>群聊列表</a> | <a href='room.php?id_room=$privat[id]'>" . htmlspecialchars($privat['name']) . "</a><br />\\n";
 echo "</div>";
 
 include_once '../sys/inc/tfoot.php'; // 引入尾部文件
