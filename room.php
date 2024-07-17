@@ -5,7 +5,7 @@ include_once '../sys/inc/compress.php';
 include_once '../sys/inc/sess.php';
 include_once '../sys/inc/home.php';
 include_once '../sys/inc/settings.php';
-include_once '../sys/inc/db_connect.php';
+include_once '../group/db_connect.php';
 include_once '../sys/inc/ipua.php';
 include_once '../sys/inc/fnc.php';
 include_once '../sys/inc/user.php';
@@ -18,28 +18,28 @@ if (!isset($_GET['id_room']) || !is_numeric($_GET['id_room'])) {
     @$_SESSION['room_pass'] = htmlspecialchars($_POST['password']);
 }
 // 检查提供的聊天室ID和密码是否匹配数据库中的密码
-if (mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' AND `password` = '".my_esc(htmlspecialchars(@$_SESSION['room_pass']))."' LIMIT 1",$db), 0) == 0) {
+if (mysqli_result(mysqli_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' AND `password` = '".my_esc(htmlspecialchars(@$_SESSION['room_pass']))."' LIMIT 1",$db), 0) == 0) {
     header("Location: index.php?".SID);
     exit;
 }
-$chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
+$chat = mysqli_fetch_assoc(mysqli_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
 
 // 举报模块
 if (isset($_GET['spam']) && isset($user)) {
-    $mess = mysql_fetch_assoc(mysql_query("SELECT * FROM `news_komm` WHERE `id` = '".intval($_GET['spam'])."' limit 1"));
+    $mess = mysqli_fetch_assoc(mysqli_query("SELECT * FROM `news_komm` WHERE `id` = '".intval($_GET['spam'])."' limit 1"));
     $spamer = get_user($mess['id_user']);
 
     // 如果用户尚未举报过这条消息
-    if (mysql_result(mysql_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0) == 0) {
+    if (mysqli_result(mysqli_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0) == 0) {
         if (isset($_POST['msg'])) {
             if ($mess['id_user'] != $user['id']) {
                 // 检查举报文本的长度和内容
-                $msg = mysql_real_escape_string($_POST['msg']);
+                $msg = mysqli_real_escape_string($_POST['msg']);
                 if (strlen2($msg) < 3) $err = '请详细说明举报原因';
                 if (strlen2($msg) > 1024) $err = '文本长度多于1024字';
                 if (isset($_POST['types'])) $types = intval($_POST['types']); else $types = '0';
                 if (!isset($err)) {
-                    mysql_query("INSERT INTO `spamus` (`id_object`, `id_user`, `msg`, `id_spam`, `time`, `types`, `razdel`, `spam`) values('$chat[id]', '$user[id]', '$msg', '$spamer[id]', '$time', '$types', 'news', '".my_esc($mess['msg'])."')");
+                    mysqli_query("INSERT INTO `spamus` (`id_object`, `id_user`, `msg`, `id_spam`, `time`, `types`, `razdel`, `spam`) values('$chat[id]', '$user[id]', '$msg', '$spamer[id]', '$time', '$types', 'news', '".my_esc($mess['msg'])."')");
                     $_SESSION['message'] = '举报成功';
                     header("Location: ?id=$chat[id]&spam=$mess[id]&page=".intval($_GET['page'])."");
                     exit;
@@ -52,11 +52,11 @@ if (isset($_GET['spam']) && isset($user)) {
     aut();
     err();
     // 显示举报表单
-    if (mysql_result(mysql_query("SELECT COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0) == 0) {
+    if (mysqli_result(mysqli_query("select COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0) == 0) {
         echo "<div class='mess'>造谣是违法行为,可能导致封号。如果一个人经常骚扰,诈骗你，你可以把他添加到黑名单中.</div>";
         echo "<form class='nav1' method='post' action='?id=$chat[id]&amp;spam=$mess[id]&amp;page=".intval($_GET['page'])."'>\\n";
         echo "<b>用户:</b> ";
-        echo " ".status($spamer['id'])."  ".group($spamer['id'])." <a href=\\"/info.php?id=$spamer[id]\\">$spamer[nick]</a>\\n";
+        echo " ".status($spamer['id'])."  ".group($spamer['id'])." <a href='/info.php?id=$spamer[id]'>$spamer[nick]</a>\\n";
         echo "".medal($spamer['id'])." ".online($spamer['id'])." (".vremja($mess['time']).")<br />";
         echo "<b>违规行为:</b> <font color='green'>".output_text($mess['msg'])."</font><br />";
         echo "原因:<br />\\n<select name='types'>\\n";
@@ -65,16 +65,16 @@ if (isset($_GET['spam']) && isset($user)) {
         echo "<option value='3' selected='selected'>恶意攻击</option>\\n";
         echo "<option value='0' selected='selected'>其他</option>\\n";
         echo "</select><br />\\n";
-        echo "评论:$tPane
-        echo "<textarea name=\\"msg\\"></textarea><br />";
-        echo "<input value=\\"提交\\" type=\\"submit\\" />\\n";
-        echo "</form>\\n";
+        echo "评论:$tPane";
+        echo "<textarea name='msg'></textarea><br/>";
+        echo "<input value='提交' type='submit'/>";
+        echo "</form>";
     } else {
         echo "<div class='mess'>关于 <font color='green'>$spamer[nick]</font> 投诉将通知管理员火速处理</div>";
     }
-    echo "<div class='foot'>\\n";
-    echo "<img src='/style/icons/str2.gif' alt='*'> <a href='?id=$news[id]&amp;page=".intval($_GET['page'])."'>返回</a><br />\\n";
-    echo "</div>\\n";
+    echo "<div class='foot'>";
+    echo "<img src='/style/icons/str2.gif' alt='*'> <a href='?id=$news[id]&amp;page=".intval($_GET['page'])."'>返回</a><br />";
+    echo "</div>";
     include_once '../sys/inc/tfoot.php';
     exit;
 }
