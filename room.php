@@ -10,7 +10,7 @@ include_once '../sys/inc/ipua.php';
 include_once '../sys/inc/fnc.php';
 include_once '../sys/inc/user.php';
 
-// 检查是否提供了聊天室ID并确保其
+// 检查是否提供了聊天室ID
 if (!isset($_GET['id_room']) || !is_numeric($_GET['id_room'])) {
     header("Location: index.php?".SID);
     exit;
@@ -153,12 +153,12 @@ if ($k_page > 1) str("news.php?id=".intval($_GET['id']).'&amp;',$k_page,$page);
 
 // 显示发送消息的表单
 if (isset($user)) {
-    echo "<form method=\\"post\\" name='message' action=\\"?id_room=".intval($_GET['id_room'])."&amp;page=$page".$go_otv."\\">\\n";
+    echo "<form method='post' name='message' action='?id_room=".intval($_GET['id_room'])."&page=$page".$go_otv."'>";
     if ($set['web'] && is_file(H.'style/themes/'.$set['set_them'].'/altername_post_form.php'))
         include_once H.'style/themes/'.$set['set_them'].'/altername_post_form.php'; else
-        echo "$tPanel<textarea name=\\"msg\\">$respons_msg</textarea><br />\\n";
-    echo "<input value=\\"发送\\" type=\\"submit\\" />\\n";
-    echo "</form>\\n";
+        echo "$tPanel <textarea name='msg'>$respons_msg</textarea><br>\\";
+        echo "<input value='发送' type='submit'/>";
+    echo "</form>";
 }
 echo'<div class="foot">';
 echo "<img src='/style/icons/str.gif' alt='*'> <a href='index.php?exit'>退出聊天室</a><br />\\n";
