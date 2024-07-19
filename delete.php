@@ -11,7 +11,7 @@ include_once '../sys/inc/fnc.php';
 include_once '../sys/inc/user.php';
 
 // 获取群聊信息
-$chat = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' OR `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
+$chat = dbassoc(dbquery("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id'])."' OR `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
 
 // 检查用户权限和请求参数
 if (!isset($_GET['id']) && !is_numeric($_GET['id']) && $user['id'] != $chat['id_avtor'] || 
@@ -21,13 +21,13 @@ if (!isset($_GET['id']) && !is_numeric($_GET['id']) && $user['id'] != $chat['id_
 }
 
 // 删除评论
-if (isset($_GET['id']) && mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_chat` WHERE `id` = '".intval($_GET['id'])."'"), 0) == 1) {
-    $post = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_chat` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
-    $ank = mysql_fetch_assoc(mysql_query("SELECT * FROM `user` WHERE `id` = $post[id_user] LIMIT 1"));
+if (isset($_GET['id']) && dbresult(dbquery("SELECT COUNT(*) FROM `privat_chat` WHERE `id` = '".intval($_GET['id'])."'"), 0) == 1) {
+    $post = dbassoc(dbquery("SELECT * FROM `privat_chat` WHERE `id` = '".intval($_GET['id'])."' LIMIT 1"));
+    $ank = dbassoc(dbquery("SELECT * FROM `user` WHERE `id` = $post[id_user] LIMIT 1"));
 
     // 检查用户权限
     if (isset($user) && ($user['level'] > $ank['level'])) {
-        mysql_query("DELETE FROM `privat_chat` WHERE `id` = '$post[id]'");
+        dbquery("DELETE FROM `privat_chat` WHERE `id` = '$post[id]'");
         $_SESSION['message'] = '评论成功删除';
     }
 
@@ -41,13 +41,14 @@ if (isset($_GET['id']) && mysql_result(mysql_query("SELECT COUNT(*) FROM `privat
 }
 
 // 删除聊天室
-if (isset($_GET['id_room']) && mysql_result(mysql_query("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."'"), 0) == 1) {
-    $post = mysql_fetch_assoc(mysql_query("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
+if (isset($_GET['id_room']) && dbresult(dbquery("SELECT COUNT(*) FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."'"), 0) == 1) {
+    $post = dbassoc(dbquery("SELECT * FROM `privat_room` WHERE `id` = '".intval($_GET['id_room'])."' LIMIT 1"));
 
-    mysql_query("DELETE FROM `privat_room` WHERE `id` = '$post[id]'");
-    mysql_query("DELETE FROM `privat_chat` WHERE `id_room` = '$post[id]'");
+    dbquery("DELETE FROM `privat_room` WHERE `id` = '$post[id]'");
+    dbquery("DELETE FROM `privat_chat` WHERE `id_room` = '$post[id]'");
     $_SESSION['message'] = '群聊已成功删除';
     header("Location: index.php?".SID);
     exit;
 }
 ?>
+
