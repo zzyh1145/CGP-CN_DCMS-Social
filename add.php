@@ -5,7 +5,7 @@ include_once '../sys/inc/compress.php';
 include_once '../sys/inc/sess.php';
 include_once '../sys/inc/home.php';
 include_once '../sys/inc/settings.php';
-include_once '../group/db_connect.php';
+include_once '../sys/inc/db_connect.php';
 include_once '../sys/inc/ipua.php';
 include_once '../sys/inc/fnc.php';
 include_once '../sys/inc/user.php';
@@ -47,9 +47,10 @@ if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['ok'])) {
 
     // 如果没有错误，则插入数据库
     if (!isset($err)) {
-        mysqli_query("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) VALUES('', '" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
-        $id_room = mysqli_insert_id();
-        // mysql_query("INSERT INTO `privat_chat` (`id`, `id_user`, `msg`, `time`, `id_room`) VALUES('', '0', '群聊成功创建', '$time', '" . $id_room . "')");
+        dbquery("INSERT INTO `privat_room` (`id_user`, `name`, `password`, `id_avtor`) VALUES('" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
+        // echo("INSERT INTO `privat_room` (`id`, `id_user`, `name`, `password`, `id_avtor`) VALUES('', '" . $user['id'] . "', '$name', '$password', '" . $user['id'] . "')");
+        $id_room = dbinsertid();
+        dbquery("INSERT INTO `privat_chat` (`id_user`, `msg`, `time`, `id_room`) VALUES('0', '群聊成功创建', '$time', '" . $id_room . "')");
 
         // 设置成功消息并重定向
         $_SESSION['message'] = '群聊成功创建，请记住邀请码：' . htmlspecialchars($password);
