@@ -55,17 +55,20 @@ if (isset($_GET['spam']) && isset($user)) {
     err();
     // 显示举报表单
     if (dbresult(dbquery("select COUNT(*) FROM `spamus` WHERE `id_user` = '$user[id]' AND `id_spam` = '$spamer[id]' AND `razdel` = 'news'"),0) == 0) {
-        echo "<div class='mess'>造谣是违法行为,可能导致封号。如果一个人经常骚扰,诈骗你，你可以把他添加到黑名单中.</div>";
+        echo "<div class='mess'>若你认为某条言论不合适、违反了网站规则，可以举报，管理员收到后会尽快处理。
+		但是，请不要瞎举报给管理添乱，若多次发出无意义的举报，将同样会按网站规则进行处罚。
+		如果你真的很讨厌某位用户的言论，你可以选择将其拉黑，而不是将消息逐条举报。逐条举报会大大降低管理员处理举报的效率，甚至导致举报处理任务大量积压。</div>";
         echo "<form class='nav1' method='post' action='?id=$chat[id]&amp;spam=$mess[id]&amp;page=".intval($_GET['page'])."'>";
         echo "<b>用户:</b> ";
         echo " ".status($spamer['id'])."  ".group($spamer['id'])." <a href='/info.php?id=$spamer[id]'>$spamer[nick]</a>";
         echo "".medal($spamer['id'])." ".online($spamer['id'])." (".vremja($mess['time']).")<br />";
         echo "<b>违规行为:</b> <font color='green'>".output_text($mess['msg'])."</font><br />";
         echo "原因:<br /><select name='types'>";
-        echo "<option value='1' selected='selected'>投放广告</option>";
-        echo "<option value='2' selected='selected'>欺诈</option>";
-        echo "<option value='3' selected='selected'>恶意攻击</option>";
-        echo "<option value='0' selected='selected'>其他</option>";
+        echo "<option value='1' selected='selected'>垃圾邮件/广告/日记/帖子</option>";
+		echo "<option value='2' selected='selected'>诈骗行为</option>";
+		echo "<option value='3' selected='selected'>引战</option>"; 
+		echo "<option value='4' selected='selected'>网络暴力</option>"; 
+		echo "<option value='0' selected='selected'>其他</option>";
         echo "</select><br />";
         echo "评论:$tPane";
         echo "<textarea name='msg'></textarea><br/>";
